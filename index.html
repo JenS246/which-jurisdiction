@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#e9e4d8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#181d20" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="description"
+      content="A quick practice game for recognizing Personal Jurisdiction and Subject Matter Jurisdiction."
+    />
+    <title>Personal Jurisdiction or Subject Matter Jurisdiction?</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="game" aria-labelledby="game-title">
+      <header class="masthead">
+        <div class="title-block">
+          <p class="course-label">Civil Litigation Practice</p>
+          <h1 id="game-title">
+            Personal Jurisdiction <span>or</span><br />
+            Subject Matter Jurisdiction?
+          </h1>
+        </div>
+
+        <div class="round-status" aria-label="Round progress">
+          <p><span id="card-number">Card 1</span> of <span id="card-total">10</span></p>
+          <p id="score">0 / 0 correct</p>
+        </div>
+      </header>
+
+      <section id="play-screen" class="play-screen" aria-label="Current question">
+        <article id="question-card" class="question-card" tabindex="-1">
+          <div class="card-heading">
+            <p id="question-type" class="question-type">Identify the issue</p>
+            <span class="file-mark" aria-hidden="true">JX</span>
+          </div>
+          <h2 id="question-text"></h2>
+        </article>
+
+        <div id="answer-panel" class="answer-panel" aria-label="Choose an answer">
+          <button class="answer-button" type="button" data-answer="personal">
+            <span class="key" aria-hidden="true">1</span>
+            <span>Personal Jurisdiction</span>
+            <span class="button-cue">Who / where?</span>
+          </button>
+          <button class="answer-button" type="button" data-answer="subject">
+            <span class="key" aria-hidden="true">2</span>
+            <span>Subject Matter Jurisdiction</span>
+            <span class="button-cue">What kind of case?</span>
+          </button>
+        </div>
+
+        <section id="feedback" class="feedback" aria-live="polite" aria-atomic="true" hidden>
+          <div class="feedback-copy">
+            <p id="feedback-label" class="feedback-label"></p>
+            <h3 id="feedback-title"></h3>
+            <p id="feedback-text"></p>
+          </div>
+          <button id="next-button" class="next-button" type="button">Next Card</button>
+        </section>
+      </section>
+
+      <section id="end-screen" class="end-screen" aria-labelledby="end-title" hidden>
+        <p class="course-label">Round Complete</p>
+        <h2 id="end-title">You got <span id="final-score">0 / 10</span> correct.</h2>
+        <div class="rule-review">
+          <p><strong>Personal Jurisdiction</strong><span>Authority over the defendant</span></p>
+          <p><strong>Subject Matter Jurisdiction</strong><span>Authority to hear this type of case</span></p>
+        </div>
+        <p id="result-note" class="result-note"></p>
+        <button id="play-again-button" class="play-again-button" type="button">Play Again</button>
+      </section>
+
+      <footer>
+        <p>A short recognition exercise for beginning paralegal students.</p>
+        <p>Use keys <kbd>1</kbd>, <kbd>2</kbd>, and <kbd>Enter</kbd>.</p>
+      </footer>
+
+      <noscript>This game needs JavaScript to shuffle cards and check answers.</noscript>
+    </main>
+  </body>
+</html>

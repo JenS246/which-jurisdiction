@@ -1,0 +1,9 @@
+{
+  "name": "which-jurisdiction",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node tests/game.test.js",
+    "check": "node --check app.js && node tests/game.test.js"
+  }
+}
