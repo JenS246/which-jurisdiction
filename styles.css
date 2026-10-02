@@ -34,6 +34,30 @@ body {
   font-family: var(--sans);
 }
 
+body[data-screen="home"]::before,
+body[data-screen="home"]::after {
+  content: "";
+  position: fixed;
+  pointer-events: none;
+}
+
+body[data-screen="home"]::before {
+  top: 0;
+  bottom: 0;
+  left: max(24px, calc(50% - 430px));
+  border-left: 1px solid rgb(140 63 50 / 0.14);
+}
+
+body[data-screen="home"]::after {
+  top: 68%;
+  right: 0;
+  left: 0;
+  border-top: 1px solid rgb(32 40 39 / 0.055);
+  box-shadow:
+    0 32px 0 rgb(32 40 39 / 0.045),
+    0 64px 0 rgb(32 40 39 / 0.035);
+}
+
 button {
   color: inherit;
   font: inherit;
@@ -56,6 +80,7 @@ button:focus-visible {
 }
 
 .exercise {
+  position: relative;
   width: min(100%, 760px);
   min-height: 100dvh;
   margin: 0 auto;
@@ -144,7 +169,7 @@ h1 {
 }
 
 .question-card h2 {
-  max-width: 21ch;
+  max-width: 100%;
   font-family: var(--serif);
   font-size: clamp(1.75rem, 4.8vw, 2.8rem);
   font-weight: 500;
@@ -193,9 +218,13 @@ h1 {
 }
 
 .feedback {
-  margin-top: 28px;
-  padding-top: 24px;
+  margin-top: 18px;
+  padding-top: 18px;
   border-top: 1px solid var(--line);
+}
+
+.feedback-slot {
+  min-height: 176px;
 }
 
 .feedback h3 {
@@ -213,7 +242,7 @@ h1 {
 }
 
 .feedback .primary-button {
-  margin-top: 22px;
+  margin-top: 16px;
 }
 
 .end-screen {
@@ -252,7 +281,101 @@ h1 {
   color: var(--muted);
 }
 
+body[data-screen="play"] .exercise,
+body[data-screen="end"] .exercise {
+  padding-top: clamp(18px, 3vh, 28px);
+  padding-bottom: clamp(14px, 2vh, 22px);
+}
+
+body[data-screen="play"] header,
+body[data-screen="end"] header {
+  padding-bottom: clamp(12px, 2vh, 18px);
+}
+
+body[data-screen="play"] h1,
+body[data-screen="end"] h1 {
+  font-size: clamp(1.7rem, min(3.4vw, 4.2vh), 2.35rem);
+  line-height: 1.02;
+}
+
+body[data-screen="play"] .play-screen {
+  padding-top: clamp(12px, 2vh, 18px);
+}
+
+body[data-screen="play"] .progress {
+  margin-bottom: 10px;
+}
+
+body[data-screen="play"] .question-card {
+  min-height: clamp(170px, 28dvh, 230px);
+  padding: clamp(22px, 3.5vh, 32px) clamp(24px, 4vw, 42px);
+}
+
+body[data-screen="play"] .question-card h2 {
+  font-size: clamp(1.65rem, min(3.3vw, 3.8vh), 2.25rem);
+}
+
+body[data-screen="play"] .answer-panel {
+  margin-top: 10px;
+  gap: 10px;
+}
+
+body[data-screen="play"] .answer-button {
+  min-height: clamp(72px, 11dvh, 88px);
+  padding: 16px 20px;
+  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+}
+
+body[data-screen="play"] .feedback-slot {
+  min-height: clamp(146px, 22dvh, 176px);
+}
+
+body[data-screen="play"] .feedback {
+  margin-top: clamp(12px, 2vh, 18px);
+  padding-top: clamp(12px, 2vh, 18px);
+}
+
+body[data-screen="play"] .feedback h3 {
+  font-size: 1.4rem;
+}
+
+body[data-screen="play"] #feedback-text {
+  margin-top: 6px;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+body[data-screen="play"] .feedback .primary-button {
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 9px 20px;
+}
+
+body[data-screen="end"] .end-screen {
+  padding-top: clamp(24px, 5vh, 44px);
+}
+
+body[data-screen="end"] .end-screen h2 {
+  font-size: clamp(2.1rem, min(5vw, 6vh), 3.35rem);
+}
+
+body[data-screen="end"] .rule-review {
+  margin: clamp(22px, 4vh, 32px) 0 clamp(20px, 3.5vh, 28px);
+}
+
+body[data-screen="end"] .rule-review p {
+  padding: clamp(13px, 2.5vh, 18px) 0;
+}
+
 @media (max-width: 580px) {
+  body[data-screen="home"]::before {
+    left: 8px;
+  }
+
+  body[data-screen="home"]::after {
+    display: none;
+  }
+
   .exercise {
     padding: 28px 18px 32px;
   }
@@ -296,6 +419,35 @@ h1 {
   .feedback {
     margin-top: 24px;
     padding-top: 20px;
+  }
+
+  .feedback-slot,
+  body[data-screen="play"] .feedback-slot {
+    min-height: 0;
+  }
+
+  body[data-screen="play"] .exercise,
+  body[data-screen="end"] .exercise {
+    padding: 22px 18px 30px;
+  }
+
+  body[data-screen="play"] header,
+  body[data-screen="end"] header {
+    padding-bottom: 18px;
+  }
+
+  body[data-screen="play"] h1,
+  body[data-screen="end"] h1 {
+    font-size: clamp(1.7rem, 8vw, 2.25rem);
+  }
+
+  body[data-screen="play"] .question-card {
+    min-height: 200px;
+    padding: 24px 22px;
+  }
+
+  body[data-screen="play"] .answer-button {
+    min-height: 70px;
   }
 
   .feedback .primary-button,

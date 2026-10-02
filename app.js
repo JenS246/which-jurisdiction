@@ -293,10 +293,10 @@ if (typeof document !== "undefined") {
       if (buttonAnswer === choice && !isCorrect) button.classList.add("is-wrong");
     });
 
-    elements.feedbackTitle.textContent = isCorrect ? "Correct." : "Incorrect.";
-    elements.feedbackText.textContent = isCorrect
-      ? card.explanation
-      : `The answer is ${labelFor(card.answer)}. ${card.explanation}`;
+    elements.feedbackTitle.textContent = isCorrect
+      ? "Correct."
+      : `Not quite. This is ${labelFor(card.answer)}.`;
+    elements.feedbackText.textContent = card.explanation;
     elements.feedback.hidden = false;
     elements.nextButton.textContent = currentIndex === ROUND_SIZE - 1 ? "See Results" : "Next Card";
     elements.nextButton.focus({ preventScroll: true });
@@ -305,6 +305,7 @@ if (typeof document !== "undefined") {
   function finishRound() {
     elements.playScreen.hidden = true;
     elements.endScreen.hidden = false;
+    document.body.dataset.screen = "end";
     elements.finalScore.textContent = `${correctCount} of ${ROUND_SIZE}`;
 
     elements.playAgainButton.focus({ preventScroll: true });
@@ -327,6 +328,7 @@ if (typeof document !== "undefined") {
     elements.homeScreen.hidden = true;
     elements.endScreen.hidden = true;
     elements.playScreen.hidden = false;
+    document.body.dataset.screen = "play";
     renderCard();
   }
 

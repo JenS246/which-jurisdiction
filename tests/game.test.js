@@ -42,6 +42,10 @@ for (const removedCopy of [
 
 assert.ok(indexHtml.includes("Which kind of jurisdiction is at issue?"));
 assert.ok(indexHtml.includes("Start Game"));
+assert.ok(indexHtml.includes('data-screen="home"'));
+assert.ok(indexHtml.includes('class="feedback-slot"'));
+assert.ok(styles.includes('body[data-screen="home"]::before'));
+assert.ok(styles.includes("min-height: 100dvh"));
 assert.ok(!styles.includes("linear-gradient"), "The redesign should not use gradients.");
 assert.ok(!/[—–]/.test(indexHtml), "Visible interface copy must not use em or en dashes.");
 

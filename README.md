@@ -9,6 +9,7 @@ A fast browser-based learning game for beginning paralegal students in Civil Lit
 - A spare opening screen leads directly into the first question.
 - Students choose one of two large answer buttons and receive immediate feedback with a short explanation.
 - Plain card progress is shown during play; the score appears at the end.
+- Desktop and laptop layouts reserve feedback space so answering does not increase the page height or cause scrolling.
 - **Play Again** draws and shuffles a new selection.
 - No account, backend, database, analytics, or external dependency is used.
 
@@ -63,6 +64,7 @@ Use `personal` or `subject` for `answer`. Keep the two categories balanced and u
 - Native buttons, visible focus rings, an ARIA live feedback region, large touch targets, and color-independent labels support keyboard and screen-reader use.
 - Layouts adapt to phones, tablets, and desktop screens.
 - A high-contrast paper-like palette keeps the exercise visually close to a printed classroom handout.
+- The home screen uses faint CSS-only margin and rule lines; gameplay remains undecorated.
 - Reduced-motion preferences disable nonessential transitions.
 
 ## Publish with GitHub Pages
