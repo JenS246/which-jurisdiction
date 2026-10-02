@@ -33,9 +33,9 @@ const cardBank = [
   },
   {
     type: "Short fact",
-    prompt: "The plaintiff is from Pennsylvania, the defendant is from New Jersey, and the plaintiff seeks $120,000.",
+    prompt: "The plaintiff is a citizen of Pennsylvania, the defendant is a citizen of New Jersey, and the plaintiff seeks $120,000.",
     answer: "subject",
-    explanation: "These facts concern whether a federal court can hear the case based on diversity jurisdiction.",
+    explanation: "These facts relate to whether a federal court can hear the case based on diversity jurisdiction.",
   },
   {
     type: "Short fact",
@@ -217,6 +217,78 @@ const cardBank = [
     answer: "subject",
     explanation: "A federal constitutional claim concerns federal Subject Matter Jurisdiction.",
   },
+  {
+    type: "Direct definition",
+    prompt: "Does the court have authority over the particular defendant being sued?",
+    answer: "personal",
+    explanation: "Authority over the particular defendant is a question of Personal Jurisdiction.",
+  },
+  {
+    type: "Diversity",
+    prompt: "The plaintiff is a citizen of Ohio, the defendant is a citizen of Kentucky, and the plaintiff seeks $90,000.",
+    answer: "subject",
+    explanation: "These facts relate to whether a federal court can hear the case based on diversity jurisdiction.",
+  },
+  {
+    type: "Short fact",
+    prompt: "The lawsuit arises from repair work the defendant performed in the state where suit was filed.",
+    answer: "personal",
+    explanation: "This concerns the defendant's connection to the forum and to the lawsuit.",
+  },
+  {
+    type: "Diversity",
+    prompt: "Both parties are citizens of Pennsylvania, and the lawyer asks whether diversity jurisdiction exists.",
+    answer: "subject",
+    explanation: "The parties' citizenship concerns the federal court's Subject Matter Jurisdiction.",
+  },
+  {
+    type: "Consent",
+    prompt: "The defendant signed a contract agreeing that disputes would be heard in this state's courts.",
+    answer: "personal",
+    explanation: "The defendant's agreement concerns the court's authority over that defendant.",
+  },
+  {
+    type: "Federal question",
+    prompt: "The complaint alleges patent infringement under federal law.",
+    answer: "subject",
+    explanation: "A claim created by federal law concerns the federal court's authority to hear the case.",
+  },
+  {
+    type: "What should the lawyer investigate?",
+    prompt: "Was the defendant formally served while visiting the state where the lawsuit was filed?",
+    answer: "personal",
+    explanation: "Service while the defendant is in the state concerns authority over that defendant.",
+  },
+  {
+    type: "Court authority",
+    prompt: "A court may hear claims up to $15,000, but the complaint seeks $25,000.",
+    answer: "subject",
+    explanation: "The amount limit concerns whether that court may hear the case.",
+  },
+  {
+    type: "Short fact",
+    prompt: "The defendant company operates a warehouse and employs workers in the state where it is sued.",
+    answer: "personal",
+    explanation: "Those facts concern the defendant company's connection to the forum state.",
+  },
+  {
+    type: "Court authority",
+    prompt: "A juvenile court is asked to decide an ordinary contract dispute between two businesses.",
+    answer: "subject",
+    explanation: "The issue is whether that court may hear this type of case.",
+  },
+  {
+    type: "Direct definition",
+    prompt: "The defendant challenges the court's authority over the defendant, not its authority over the type of claim.",
+    answer: "personal",
+    explanation: "A challenge to authority over the defendant concerns Personal Jurisdiction.",
+  },
+  {
+    type: "Court authority",
+    prompt: "The lawyer researches whether Congress authorized this federal court to hear the claim.",
+    answer: "subject",
+    explanation: "That question concerns the federal court's Subject Matter Jurisdiction.",
+  },
 ];
 
 function shuffle(items, random = Math.random) {
@@ -228,11 +300,35 @@ function shuffle(items, random = Math.random) {
   return result;
 }
 
-function createRound(random = Math.random) {
+function drawBalancedRound(random) {
   const eachType = ROUND_SIZE / 2;
   const personal = shuffle(cardBank.filter((card) => card.answer === "personal"), random).slice(0, eachType);
   const subject = shuffle(cardBank.filter((card) => card.answer === "subject"), random).slice(0, eachType);
   return shuffle([...personal, ...subject], random);
+}
+
+function cardSetKey(cards) {
+  return cards.map((card) => card.prompt).sort().join("\n");
+}
+
+function createRound(random = Math.random, previousRound = []) {
+  const previousKey = previousRound.length === ROUND_SIZE ? cardSetKey(previousRound) : "";
+  let nextRound = drawBalancedRound(random);
+
+  for (let attempt = 0; previousKey && cardSetKey(nextRound) === previousKey && attempt < 4; attempt += 1) {
+    nextRound = drawBalancedRound(random);
+  }
+
+  if (previousKey && cardSetKey(nextRound) === previousKey) {
+    const currentPrompts = new Set(nextRound.map((card) => card.prompt));
+    const replacement = shuffle(
+      cardBank.filter((card) => card.answer === nextRound[0].answer && !currentPrompts.has(card.prompt)),
+      random,
+    )[0];
+    if (replacement) nextRound[0] = replacement;
+  }
+
+  return nextRound;
 }
 
 function labelFor(answer) {
@@ -322,7 +418,7 @@ if (typeof document !== "undefined") {
   }
 
   function startGame() {
-    round = createRound();
+    round = createRound(Math.random, round);
     currentIndex = 0;
     correctCount = 0;
     elements.homeScreen.hidden = true;
