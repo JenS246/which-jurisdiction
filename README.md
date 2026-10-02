@@ -6,8 +6,9 @@ A fast browser-based learning game for beginning paralegal students in Civil Lit
 
 - Each round draws 10 unique cards from a bank of 36.
 - Every round includes five Personal Jurisdiction cards and five Subject Matter Jurisdiction cards.
+- A spare opening screen leads directly into the first question.
 - Students choose one of two large answer buttons and receive immediate feedback with a short explanation.
-- The score is shown throughout the round and at the end.
+- Plain card progress is shown during play; the score appears at the end.
 - **Play Again** draws and shuffles a new selection.
 - No account, backend, database, analytics, or external dependency is used.
 
@@ -61,7 +62,7 @@ Use `personal` or `subject` for `answer`. Keep the two categories balanced and u
 - `Enter` advances after feedback.
 - Native buttons, visible focus rings, an ARIA live feedback region, large touch targets, and color-independent labels support keyboard and screen-reader use.
 - Layouts adapt to phones, tablets, and desktop screens.
-- Light and dark themes follow the operating-system preference.
+- A high-contrast paper-like palette keeps the exercise visually close to a printed classroom handout.
 - Reduced-motion preferences disable nonessential transitions.
 
 ## Publish with GitHub Pages

@@ -1,5 +1,11 @@
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const { ROUND_SIZE, cardBank, createRound, labelFor } = require("../app.js");
+
+const projectRoot = path.join(__dirname, "..");
+const indexHtml = fs.readFileSync(path.join(projectRoot, "index.html"), "utf8");
+const styles = fs.readFileSync(path.join(projectRoot, "styles.css"), "utf8");
 
 assert.equal(ROUND_SIZE, 10);
 assert.ok(cardBank.length >= 30, "The replay deck should contain at least 30 cards.");
@@ -22,5 +28,21 @@ for (let attempt = 0; attempt < 100; attempt += 1) {
 
 assert.equal(labelFor("personal"), "Personal Jurisdiction");
 assert.equal(labelFor("subject"), "Subject Matter Jurisdiction");
+
+for (const removedCopy of [
+  "Civil Litigation Practice",
+  "Identify the issue",
+  "Who / where?",
+  "What kind of case?",
+  "A short recognition exercise",
+  "Use keys",
+]) {
+  assert.ok(!indexHtml.includes(removedCopy), `Removed interface copy returned: ${removedCopy}`);
+}
+
+assert.ok(indexHtml.includes("Which kind of jurisdiction is at issue?"));
+assert.ok(indexHtml.includes("Start Game"));
+assert.ok(!styles.includes("linear-gradient"), "The redesign should not use gradients.");
+assert.ok(!/[—–]/.test(indexHtml), "Visible interface copy must not use em or en dashes.");
 
 console.log(`Validated ${cardBank.length} cards and 100 balanced rounds.`);

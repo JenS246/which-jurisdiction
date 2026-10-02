@@ -241,22 +241,19 @@ function labelFor(answer) {
 
 if (typeof document !== "undefined") {
   const elements = {
+    homeScreen: document.querySelector("#home-screen"),
     playScreen: document.querySelector("#play-screen"),
     endScreen: document.querySelector("#end-screen"),
     card: document.querySelector("#question-card"),
-    questionType: document.querySelector("#question-type"),
     questionText: document.querySelector("#question-text"),
-    cardNumber: document.querySelector("#card-number"),
-    cardTotal: document.querySelector("#card-total"),
-    score: document.querySelector("#score"),
+    progress: document.querySelector("#progress"),
     answers: [...document.querySelectorAll(".answer-button")],
     feedback: document.querySelector("#feedback"),
-    feedbackLabel: document.querySelector("#feedback-label"),
     feedbackTitle: document.querySelector("#feedback-title"),
     feedbackText: document.querySelector("#feedback-text"),
+    startButton: document.querySelector("#start-button"),
     nextButton: document.querySelector("#next-button"),
     finalScore: document.querySelector("#final-score"),
-    resultNote: document.querySelector("#result-note"),
     playAgainButton: document.querySelector("#play-again-button"),
   };
 
@@ -268,10 +265,8 @@ if (typeof document !== "undefined") {
   function renderCard() {
     const card = round[currentIndex];
     answered = false;
-    elements.questionType.textContent = card.type;
     elements.questionText.textContent = card.prompt;
-    elements.cardNumber.textContent = `Card ${currentIndex + 1}`;
-    elements.score.textContent = `${correctCount} / ${currentIndex} correct`;
+    elements.progress.textContent = `${currentIndex + 1} of ${ROUND_SIZE}`;
     elements.feedback.hidden = true;
     elements.feedback.className = "feedback";
 
@@ -298,13 +293,10 @@ if (typeof document !== "undefined") {
       if (buttonAnswer === choice && !isCorrect) button.classList.add("is-wrong");
     });
 
-    elements.score.textContent = `${correctCount} / ${currentIndex + 1} correct`;
-    elements.feedbackLabel.textContent = isCorrect ? "Correct" : "Not quite";
-    elements.feedbackTitle.textContent = isCorrect
-      ? labelFor(card.answer)
-      : `The answer is ${labelFor(card.answer)}.`;
-    elements.feedbackText.textContent = card.explanation;
-    elements.feedback.classList.add(isCorrect ? "is-correct" : "is-wrong");
+    elements.feedbackTitle.textContent = isCorrect ? "Correct." : "Incorrect.";
+    elements.feedbackText.textContent = isCorrect
+      ? card.explanation
+      : `The answer is ${labelFor(card.answer)}. ${card.explanation}`;
     elements.feedback.hidden = false;
     elements.nextButton.textContent = currentIndex === ROUND_SIZE - 1 ? "See Results" : "Next Card";
     elements.nextButton.focus({ preventScroll: true });
@@ -313,15 +305,7 @@ if (typeof document !== "undefined") {
   function finishRound() {
     elements.playScreen.hidden = true;
     elements.endScreen.hidden = false;
-    elements.finalScore.textContent = `${correctCount} / ${ROUND_SIZE}`;
-
-    if (correctCount === ROUND_SIZE) {
-      elements.resultNote.textContent = "Excellent recognition. You kept the court's authority over the defendant separate from its authority over the type of case.";
-    } else if (correctCount >= 8) {
-      elements.resultNote.textContent = "Strong work. Keep using WHO / WHERE for the defendant and WHAT KIND OF CASE for the court's subject matter authority.";
-    } else {
-      elements.resultNote.textContent = "Keep practicing the core distinction: authority over the defendant versus authority to hear the type of case.";
-    }
+    elements.finalScore.textContent = `${correctCount} of ${ROUND_SIZE}`;
 
     elements.playAgainButton.focus({ preventScroll: true });
   }
@@ -340,12 +324,13 @@ if (typeof document !== "undefined") {
     round = createRound();
     currentIndex = 0;
     correctCount = 0;
-    elements.cardTotal.textContent = ROUND_SIZE;
+    elements.homeScreen.hidden = true;
     elements.endScreen.hidden = true;
     elements.playScreen.hidden = false;
     renderCard();
   }
 
+  elements.startButton.addEventListener("click", startGame);
   elements.answers.forEach((button) => {
     button.addEventListener("click", () => answerCard(button.dataset.answer));
   });
@@ -359,7 +344,7 @@ if (typeof document !== "undefined") {
     }
   });
 
-  startGame();
+  elements.startButton.focus({ preventScroll: true });
 }
 
 if (typeof module !== "undefined") {
